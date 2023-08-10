@@ -3,7 +3,12 @@ function getTotalBooksCount(books) {
 }
 
 function getTotalAccountsCount(accounts) {
-  return accounts.length
+  let totalAccounts = 0;
+  for (let account in accounts) {
+    totalAccounts += 1;
+  }
+  return totalAccounts;
+  //return accounts.length
 }
 
 function getBooksBorrowedCount(books) {
@@ -44,18 +49,11 @@ function getMostPopularBooks(books) {
 function getMostPopularAuthors(books, authors) {
   let result = [];
   authors.forEach((author) => {
-    let theAuthor = {
-     name: `${author.name.first} ${author.name.last}`,
-     count: 0
-    };
-    books.forEach((book) => {
-      if (book.authorId === author.id) {
-       theAuthor.count += book.borrows.length;
-      }
-     });
-     result.push(theAuthor);
-    });
-    return result.sort((authorA, authorB) => authorB.count - authorA.count).slice(0, 5);
+    let bookAuth = books.filter((book) => book.authorId === author.id)
+    let bookAuthBorrows = bookAuth.reduce((borrowTot, book) => borrowTot + book.borrows.length, 0)
+    result.push ({name: author.name.first + " " + author.name.last, count: bookAuthBorrows})
+  })
+  return result.sort((authorA, authorB) => (authorA.count < authorB.count ? 1 : -1)).slice(0,5)
 }
 
 module.exports = {

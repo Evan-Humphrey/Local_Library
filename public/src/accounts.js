@@ -1,6 +1,6 @@
 function findAccountById(accounts, id) {
-  const idAccount = accounts.find((account) => account.id === id)
-  return idAccount
+   const idAccount = accounts.find((account) => account.id === id)
+   return idAccount
 }
 
 function sortAccountsByLastName(accounts) {
